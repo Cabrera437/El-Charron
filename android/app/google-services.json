@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "921924105765",
+    "project_id": "elcharron-f969f",
+    "storage_bucket": "elcharron-f969f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:921924105765:android:e21395946499544a64f1cc",
+        "android_client_info": {
+          "package_name": "com.example.el_charron"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKLFsbJbhFQj1M63bJY7c_LuQKnWmkyl4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,3 +1,10 @@
+/*buildscript {
+    dependencies {
+        // Fíjate: son paréntesis y comillas dobles
+        classpath("com.google.gms:google-services:4.4.1") 
+    }
+}*/
+
 allprojects {
     repositories {
         google()
