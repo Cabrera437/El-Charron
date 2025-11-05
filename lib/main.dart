@@ -1,9 +1,16 @@
+import 'package:flutter/material.dart';
+
+// 🔹 Importaciones de tus pantallas
 import 'package:el_charron/screens/IniciarSesion.dart';
 import 'package:el_charron/screens/MenuPantalla.dart';
 import 'package:el_charron/screens/CrearProducto.dart' as crear;
 import 'package:el_charron/screens/AnadirProducto.dart';
-import 'package:flutter/material.dart';
-import 'screens/CrearSesion.dart';
+import 'package:el_charron/screens/CrearSesion.dart';
+import 'package:el_charron/screens/CrearGasto.dart';
+import 'package:el_charron/screens/NuevoGasto.dart';
+
+// ✅ Nueva pantalla Balance
+import 'package:el_charron/screens/BalanceScreen.dart';
 
 void main() => runApp(const MyApp());
 
@@ -22,15 +29,21 @@ class MyApp extends StatelessWidget {
         '/menu': (context) => const MenuPantalla(),
         '/crearProducto': (context) => const crear.CrearProducto(),
         '/añadirProducto': (context) => const AnadirProducto(),
+        '/crearGasto': (context) => const CrearGasto(),
+        '/nuevoGasto': (context) => const NuevoGasto(),
+        '/balance': (context) => const BalanceScreen(), 
       },
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
         useMaterial3: true,
       ),
     );
   }
 }
 
+//
+// 🔹 Pantalla de bienvenida (sin cambios grandes)
+//
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
@@ -61,7 +74,8 @@ class WelcomeScreen extends StatelessWidget {
                   color: Colors.white,
                   borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 100),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 100),
                 child: Column(
                   children: [
                     const Text(
@@ -88,14 +102,16 @@ class WelcomeScreen extends StatelessWidget {
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black,
-                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          padding:
+                              const EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
                         child: const Text(
                           'Iniciar',
-                          style: TextStyle(fontSize: 16, color: Colors.white),
+                          style:
+                              TextStyle(fontSize: 16, color: Colors.white),
                         ),
                       ),
                     ),
@@ -114,15 +130,18 @@ class WelcomeScreen extends StatelessWidget {
                           );
                         },
                         style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          side: const BorderSide(color: Colors.black, width: 1.5),
+                          padding:
+                              const EdgeInsets.symmetric(vertical: 14),
+                          side: const BorderSide(
+                              color: Colors.black, width: 1.5),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
                         child: const Text(
                           'Ya tengo una cuenta',
-                          style: TextStyle(fontSize: 16, color: Colors.black),
+                          style: TextStyle(
+                              fontSize: 16, color: Colors.black),
                         ),
                       ),
                     ),
@@ -137,7 +156,9 @@ class WelcomeScreen extends StatelessWidget {
   }
 }
 
-// PANTALLAS DE NAVEGACIÓN TEMPORALES
+//
+// 🔹 Pantallas adicionales de inicio y login (sin cambios)
+//
 class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
 
@@ -145,7 +166,9 @@ class StartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Iniciar')),
-      body: const Center(child: Text('Pantalla de inicio de registro o menú')),
+      body: const Center(
+        child: Text('Pantalla de inicio de registro o menú'),
+      ),
     );
   }
 }
@@ -157,7 +180,12 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Iniciar sesión')),
-      body: const Center(child: Text('Pantalla de login')),
+      body: const Center(
+        child: Text('Pantalla de login'),
+      ),
     );
   }
+
+
+
 }

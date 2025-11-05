@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'ProductoModel.dart';
 import 'AnadirProducto.dart';
 import 'CrearProducto.dart';
+import 'CrearGasto.dart';
+import 'NuevoGasto.dart';
+import 'BalanceScreen.dart'; // ✅ Importar la pantalla de balance
 
 class MenuPantalla extends StatefulWidget {
   const MenuPantalla({super.key});
@@ -11,43 +14,26 @@ class MenuPantalla extends StatefulWidget {
 }
 
 class _MenuPantallaState extends State<MenuPantalla> {
+  int _selectedIndex = 1; // índice actual del menú inferior
+
   @override
   Widget build(BuildContext context) {
     final bool hayContenido = productosCreados.isNotEmpty;
 
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.orange[700],
+        title: const Text(
+          'Menú Principal',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        automaticallyImplyLeading: false, // sin botón atrás
+      ),
+
       body: SafeArea(
         child: Column(
           children: [
-            // 🔶 Encabezado naranja
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              color: Colors.orange[700],
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {},
-                    child: const CircleAvatar(
-                      radius: 24,
-                      backgroundImage: AssetImage('assets/Icono.jpeg'),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'El Charron',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
-                      ),
-                      Text('Administrador', style: TextStyle(fontSize: 14, color: Colors.white70)),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-
             // 🧾 Contenido dinámico
             Expanded(
               child: hayContenido
@@ -55,9 +41,11 @@ class _MenuPantallaState extends State<MenuPantalla> {
                       padding: const EdgeInsets.fromLTRB(16, 16, 16, 50),
                       itemCount: productosCreados.length,
                       itemBuilder: (context, index) {
-                        final reversedList = productosCreados.reversed.toList();
+                        final reversedList =
+                            productosCreados.reversed.toList();
                         final producto = reversedList[index];
-                        final bool esUltimo = index == reversedList.length - 1;
+                        final bool esUltimo =
+                            index == reversedList.length - 1;
 
                         return Padding(
                           padding: EdgeInsets.only(bottom: esUltimo ? 30 : 0),
@@ -69,17 +57,25 @@ class _MenuPantallaState extends State<MenuPantalla> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
-                          Icon(Icons.info_outline, size: 60, color: Colors.grey),
+                          Icon(Icons.info_outline,
+                              size: 60, color: Colors.grey),
                           SizedBox(height: 20),
                           Text(
                             'No tienes productos creados',
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87),
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87,
+                            ),
                           ),
                           SizedBox(height: 8),
                           Text(
                             'Comienza agregando un nuevo producto\nasí organizarás tus ventas a futuro.',
                             textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 14, color: Colors.black54),
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black54,
+                            ),
                           ),
                         ],
                       ),
@@ -89,7 +85,7 @@ class _MenuPantallaState extends State<MenuPantalla> {
         ),
       ),
 
-      // 🟦🟩 Botones flotantes
+      // 🟦🟩🟧 Botones flotantes
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -102,7 +98,7 @@ class _MenuPantallaState extends State<MenuPantalla> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (_) => const CrearProducto()),
-                ).then((_) => setState(() {}));
+                );
               },
               backgroundColor: Colors.blue,
               icon: const Icon(Icons.add),
@@ -114,41 +110,75 @@ class _MenuPantallaState extends State<MenuPantalla> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (_) => const AnadirProducto()),
-                ).then((_) => setState(() {}));
+                );
               },
               backgroundColor: Colors.green,
               icon: const Icon(Icons.playlist_add),
               label: const Text('Añadir producto'),
             ),
+            FloatingActionButton.extended(
+              heroTag: 'gasto',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const CrearGasto()),
+                );
+              },
+              backgroundColor: Colors.orange,
+              icon: const Icon(Icons.monetization_on),
+              label: const Text('Crear gasto'),
+            ),
           ],
         ),
       ),
 
-      // 🚀 Barra inferior
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-          boxShadow: const [
-            BoxShadow(color: Color.fromARGB(62, 0, 0, 0), blurRadius: 3, offset: Offset(0, -5)),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 8),
-          child: NavigationBar(
-            backgroundColor: Colors.white,
-            elevation: 0,
-            destinations: const [
-              NavigationDestination(icon: ImageIcon(AssetImage('assets/Balance.png')), label: 'Balance'),
-              NavigationDestination(icon: ImageIcon(AssetImage('assets/menu.png')), label: 'Menú'),
-              NavigationDestination(icon: ImageIcon(AssetImage('assets/gastos.png')), label: 'Gastos'),
-            ],
-            selectedIndex: 1,
-            onDestinationSelected: (int index) {
-              // navegación futura
-            },
+      // 🚀 Barra inferior de navegación
+      bottomNavigationBar: NavigationBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        selectedIndex: _selectedIndex,
+        onDestinationSelected: (int index) {
+          if (index == _selectedIndex) return; // evita recargar misma pantalla
+          setState(() => _selectedIndex = index);
+
+          switch (index) {
+            case 0:
+              debugPrint("➡ Navegando a Balance...");
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const BalanceScreen()),
+              );
+              break;
+            case 1:
+              debugPrint("➡ Navegando a Menú...");
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const MenuPantalla()),
+              );
+              break;
+            case 2:
+              debugPrint("➡ Navegando a Gastos...");
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const CrearGasto()),
+              );
+              break;
+          }
+        },
+        destinations: const [
+          NavigationDestination(
+            icon: ImageIcon(AssetImage('assets/Balance.png')),
+            label: 'Balance',
           ),
-        ),
+          NavigationDestination(
+            icon: ImageIcon(AssetImage('assets/menu.png')),
+            label: 'Menú',
+          ),
+          NavigationDestination(
+            icon: ImageIcon(AssetImage('assets/gastos.png')),
+            label: 'Gastos',
+          ),
+        ],
       ),
     );
   }
@@ -189,10 +219,17 @@ class _ProductoCardState extends State<ProductoCard> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(widget.producto.nombre,
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                  Text('\$${widget.producto.precio.toStringAsFixed(2)}',
-                      style: const TextStyle(color: Colors.grey)),
+                  Text(
+                    widget.producto.nombre,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    '\$${widget.producto.precio.toStringAsFixed(2)}',
+                    style: const TextStyle(color: Colors.grey),
+                  ),
                 ],
               ),
             ),
